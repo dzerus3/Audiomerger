@@ -4,7 +4,7 @@ import os
 import glob
 import argparse
 
-PROG_VERSION = "1.0.0 - Working"
+PROG_VERSION = "0.1.1 - Beta"
 
 def main():
     args = processArgs()
@@ -38,8 +38,8 @@ def dbg_print(is_debug, message):
 
 
 def mergeAudio(args):
-    files, organizedFiles = getFiles(args)
-    fileConcatStrings = getConcatStrings(organizedFiles)
+    files = getFiles(args)
+    fileConcatStrings = getConcatStrings(files)
     if not args.yes:
         confirmation = input(f"{color.RED}This is how the files will be merged. Proceed? (y/n){color.END} ")
         if confirmation != "y":
@@ -53,12 +53,6 @@ def mergeAudio(args):
 
     dbg_print(args.is_debug, "Merging files...")
     mergeFiles(outputName, fileConcatStrings)
-
-    if args.delete:
-        print("Deleting original files...")
-        for i in files:
-            os.remove(i)
-            # print(i)
 
 
 def mergeFiles(outputName, fileConcatStrings):
@@ -92,9 +86,9 @@ def getFiles(args):
 
     files = sorted(glob.glob(workingFiles))
 
-    organizedFiles = splitFiles(files, args.numParts)
+    files = splitFiles(files, args.numParts)
 
-    return files, organizedFiles
+    return files
 
 
 def splitFiles(files, numParts):
