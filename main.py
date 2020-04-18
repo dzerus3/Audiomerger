@@ -89,14 +89,16 @@ def splitFiles(files, numParts):
 # Parses command line args passed to the program
 def parseArgs():
     parser = argparse.ArgumentParser(
-        description="Merge many mp3 files into bigger parts"
+        description="Audiomerger - Merge many mp3 files into bigger parts"
     )
 
     help_texts = {
         "version": "output program version and exit.",
         "num_parts": "specify number of parts you want to split into. default: 4",
         "directory": "specify where to run program. default: wherever you call it.",
-        "recursive": "specify that subdirs should be processed. note: only subdirs will be processed",
+        "yes": "skip prompts which ensure you got the right files.",
+        "delete": "delete the files you merged in after completion.",
+        "recursive": "specify that subdirs should be processed. note: broken",
         "debug"  : "start in debug mode. prints text to follow program's flow."
     }
 
@@ -116,15 +118,25 @@ def parseArgs():
                         dest="directory",
                         help=help_texts["directory"])
 
+    parser.add_argument("-y",
+                        action="store_true",
+                        dest="yes",
+                        help=help_texts["yes"])
+
     parser.add_argument("-r",
                         action="store_true",
                         dest="recursive",
                         help=help_texts["recursive"])
 
+    parser.add_argument("--delete",
+                        action="store_true",
+                        dest="delete",
+                        help=help_texts["delete"])
+
     parser.add_argument("--dbg",
                         action="store_true",
                         dest="is_debug",
-                        help=help_texts["version"])
+                        help=help_texts["debug"])
 
     return parser.parse_args()
 
