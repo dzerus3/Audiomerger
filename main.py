@@ -20,10 +20,10 @@ def processArgs():
         print(PROG_VERSION)
         return
 
-    if args.num_parts:
-        num_parts = args.num_parts
+    if args.numParts:
+        numParts = args.numParts
     else:
-        args.num_parts = 4
+        args.numParts = 4
 
     if not args.directory:
         args.directory = os.getcwd
@@ -41,9 +41,26 @@ def mergeAudio(args):
     fileConcatStrings = getConcatStrings(files)
     if not args.yes:
         confirmation = input("This is how the files will be merged. Proceed? (y/n) ")
-        if confirmation not "y":
+        if confirmation != "y":
             print("Aborting...")
             return
+
+    if args.outputName:
+        outputName = args.fileName
+    else:
+        outputName = "output"
+
+    dbg_print(args.is_debug, "Merging files...")
+    mergeFiles(outputName, fileConcatStrings)
+
+
+def mergeFiles(outputName, fileConcatStrings):
+    counter = 0
+    for i in fileConcatStrings:
+        counter += 1
+        # os.system(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
+        print(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
+
 
 def getConcatStrings(files):
     fileConcatStrings = []
@@ -66,7 +83,7 @@ def getFiles(args):
 
     files = sorted(glob.glob(workingFiles))
 
-    files = splitFiles(files, args.num_parts)
+    files = splitFiles(files, args.numParts)
 
     return files
 
@@ -105,7 +122,8 @@ def parseArgs():
 
     help_texts = {
         "version": "output program version and exit.",
-        "num_parts": "specify number of parts you want to split into. default: 4",
+        "numParts": "specify number of parts you want to split into. default: 4",
+        "name": "Specify name of output files. This + number + .mp3 is final name.",
         "directory": "specify where to run program. default: wherever you call it.",
         "yes": "skip prompts which ensure you got the right files.",
         "delete": "delete the files you merged in after completion.",
@@ -121,8 +139,13 @@ def parseArgs():
     parser.add_argument("-n",
                         action="store",
                         type=int,
-                        dest="num_parts",
-                        help=help_texts["num_parts"])
+                        dest="numParts",
+                        help=help_texts["numParts"])
+
+    parser.add_argument("-a",
+                        action="store",
+                        dest="outputName",
+                        help=help_texts["name"])
 
     parser.add_argument("-d",
                         action="store",
