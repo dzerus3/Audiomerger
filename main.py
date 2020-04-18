@@ -8,7 +8,16 @@ IS_DEBUG = False
 PROG_VERSION = "0.0.1 - Alpha"
 
 def main():
+    args = processArgs
+    dbg_print("Successfully parsed args")
+
+    mergeAudio(args)
+
+
+# Sets all the default values, and does basic work on args
+def processArgs():
     args = parseArgs()
+
     if args.version:
         print (PROG_VERSION)
         return
@@ -24,10 +33,7 @@ def main():
     if args.is_debug:
         IS_DEBUG = True
 
-    dbg_print("Successfully parsed args")
-
-    mergeAudio(args)
-
+    return args
 
 def dbg_print(*args, **kwargs):
     if IS_DEBUG:
