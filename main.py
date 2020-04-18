@@ -3,7 +3,7 @@ import os
 import glob
 import argparse
 
-PROG_VERSION = "0.0.1 - Alpha"
+PROG_VERSION = "0.1.1 - Beta"
 
 def main():
     args = processArgs()
@@ -58,8 +58,10 @@ def mergeFiles(outputName, fileConcatStrings):
     counter = 0
     for i in fileConcatStrings:
         counter += 1
-        # os.system(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
-        print(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
+        os.system(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
+        # print(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
+
+    print("All done!")
 
 
 def getConcatStrings(files):
