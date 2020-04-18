@@ -42,6 +42,10 @@ def dbg_print(is_debug, *args, **kwargs):
 
 
 def mergeAudio(args):
+    files = getFiles(args)
+
+
+def getFiles(args):
     workingDir = os.getcwd()
     if args.recursive:
         workingFiles = os.path.join(workingDir, "**/*.mp3")
@@ -51,13 +55,44 @@ def mergeAudio(args):
     dbg_print(args.is_debug, f"Started script at path {workingDir}")
     dbg_print(args.is_debug, f"Wildcard pattern is {workingFiles}")
 
-    files = glob.glob(workingFiles)
-    print(files)
+    files = sorted(glob.glob(workingFiles))
+
+    splitFiles(files, args.num_parts)
+
+    return files
+
+
+def splitFiles(files, numParts):
+    splitFiles = []
+    fileNum = len(files)
+
+    if fileNum <= numParts:
+        print(f"You don't have enough files for {numParts} parts!")
+        quit()
+
+    remainder = fileNum%numParts
+    fileNum -= remainder
+    # Int conversion necessary; else it becomes a float, no idea why
+    partSize = int(fileNum / numParts)
+
+    for i in range(numParts):
+        startPoint = i * partSize
+        endPoint = startPoint + partSize
+        buff = files[startPoint:endPoint]
+        splitFiles.append(buff)
+        print (splitFiles[i])
+
+    # Remainder gets added onto last part
+    for i in range(1, remainder):
+        splitFiles[-1].append(files[i])
+
+    return splitFiles
+
 
 # Parses command line args passed to the program
 def parseArgs():
     parser = argparse.ArgumentParser(
-        description="Merge many mp3 files into one"
+        description="Merge many mp3 files into bigger parts"
     )
 
     help_texts = {
