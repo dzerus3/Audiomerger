@@ -31,9 +31,9 @@ def processArgs():
     return args
 
 
-def dbg_print(is_debug, *args, **kwargs):
+def dbg_print(is_debug, message):
     if is_debug is True:
-        print(*args, **kwargs)
+        print(color.GREEN + message + color.END)
 
 
 def mergeAudio(args):
@@ -42,7 +42,7 @@ def mergeAudio(args):
     if not args.yes:
         confirmation = input("This is how the files will be merged. Proceed? (y/n) ")
         if confirmation != "y":
-            print("Aborting...")
+            print(f"{color.RED}Aborting...{color.END}")
             return
 
     if args.outputName:
@@ -95,7 +95,7 @@ def splitFiles(files, numParts):
     fileNum = len(files)
 
     if fileNum <= numParts:
-        print(f"You don't have enough files for {numParts} parts!")
+        print(f"{color.RED}You don't have enough files for {numParts} parts!{color.END}")
         quit()
 
     remainder = fileNum%numParts
@@ -119,7 +119,8 @@ def splitFiles(files, numParts):
 # Parses command line args passed to the program
 def parseArgs():
     parser = argparse.ArgumentParser(
-        description="Audiomerger - Merge many mp3 files into bigger parts"
+        description="Audiomerger - Merge many mp3 files into bigger parts",
+        epilog=f"{color.BOLD}NOTE: DO NOT USE SPACES IN ANY ARGUMENTS{color.END}"
     )
 
     help_texts = {
@@ -175,6 +176,19 @@ def parseArgs():
                         help=help_texts["debug"])
 
     return parser.parse_args()
+
+# Credits for this class go to https://stackoverflow.com/questions/8924173/how-do-i-print-bold-text-in-python
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
 
 if __name__ == "__main__":
     main()
