@@ -40,7 +40,7 @@ def mergeAudio(args):
     files = getFiles(args)
     fileConcatStrings = getConcatStrings(files)
     if not args.yes:
-        confirmation = input("This is how the files will be merged. Proceed? (y/n) ")
+        confirmation = input(f"{color.RED}This is how the files will be merged. Proceed? (y/n){color.END} ")
         if confirmation != "y":
             print(f"{color.RED}Aborting...{color.END}")
             return
@@ -76,7 +76,7 @@ def getConcatStrings(files):
 def getFiles(args):
     workingDir = os.getcwd()
     if args.recursive:
-        workingFiles = os.path.join(workingDir, "**/*.mp3")
+        workingFiles = os.path.join(workingDir, "**/*.mp3", recursive=True)
     else:
         workingFiles = os.path.join(workingDir, "*.mp3")
 
