@@ -35,6 +35,7 @@ def processArgs():
 
     return args
 
+
 def dbg_print(is_debug, *args, **kwargs):
     if is_debug is True:
         print(*args, **kwargs)
@@ -53,7 +54,6 @@ def mergeAudio(args):
     files = glob.glob(workingFiles)
     print(files)
 
-
 # Parses command line args passed to the program
 def parseArgs():
     parser = argparse.ArgumentParser(
@@ -62,10 +62,10 @@ def parseArgs():
 
     help_texts = {
         "version": "output program version and exit.",
-        "num_parts": "specify number of parts you want to split into. Default: 4",
-        "directory": "specify where to run program. Default: wherever you call it.",
-        "recursive": "specify that subdirs should be processed.",
-        "debug"  : "start in debug mode. Prints text to follow program's flow."
+        "num_parts": "specify number of parts you want to split into. default: 4",
+        "directory": "specify where to run program. default: wherever you call it.",
+        "recursive": "specify that subdirs should be processed. note: only subdirs will be processed",
+        "debug"  : "start in debug mode. prints text to follow program's flow."
     }
 
     parser.add_argument("-v", "--version",
