@@ -3,8 +3,6 @@ import os
 import glob
 import argparse
 
-IS_DEBUG = False
-
 PROG_VERSION = "0.0.1 - Alpha"
 
 def main():
@@ -19,7 +17,7 @@ def processArgs():
     args = parseArgs()
 
     if args.version:
-        print (PROG_VERSION)
+        print(PROG_VERSION)
         return
 
     if args.num_parts:
@@ -29,9 +27,6 @@ def processArgs():
 
     if not args.directory:
         args.directory = os.getcwd
-
-    if args.is_debug:
-        IS_DEBUG = True
 
     return args
 
@@ -45,7 +40,7 @@ def mergeAudio(args):
     files = getFiles(args)
     for i in files:
         fileConcatString = "|".join(i)
-        print (fileConcatString)
+        print(fileConcatString)
 
 
 def getFiles(args):
