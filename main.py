@@ -43,6 +43,9 @@ def dbg_print(is_debug, *args, **kwargs):
 
 def mergeAudio(args):
     files = getFiles(args)
+    for i in files:
+        fileConcatString = "|".join(i)
+        print (fileConcatString)
 
 
 def getFiles(args):
@@ -57,7 +60,7 @@ def getFiles(args):
 
     files = sorted(glob.glob(workingFiles))
 
-    splitFiles(files, args.num_parts)
+    files = splitFiles(files, args.num_parts)
 
     return files
 
@@ -80,7 +83,6 @@ def splitFiles(files, numParts):
         endPoint = startPoint + partSize
         buff = files[startPoint:endPoint]
         splitFiles.append(buff)
-        print (splitFiles[i])
 
     # Remainder gets added onto last part
     for i in range(1, remainder):
@@ -110,6 +112,7 @@ def parseArgs():
 
     parser.add_argument("-n",
                         action="store",
+                        type=int,
                         dest="num_parts",
                         help=help_texts["num_parts"])
 
