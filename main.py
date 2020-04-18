@@ -8,8 +8,8 @@ IS_DEBUG = False
 PROG_VERSION = "0.0.1 - Alpha"
 
 def main():
-    args = processArgs
-    dbg_print("Successfully parsed args")
+    args = processArgs()
+    dbg_print(args.is_debug, "Successfully parsed args")
 
     mergeAudio(args)
 
@@ -35,8 +35,8 @@ def processArgs():
 
     return args
 
-def dbg_print(*args, **kwargs):
-    if IS_DEBUG:
+def dbg_print(is_debug, *args, **kwargs):
+    if is_debug is True:
         print(*args, **kwargs)
 
 
@@ -47,8 +47,8 @@ def mergeAudio(args):
     else:
         workingFiles = os.path.join(workingDir, "*.mp3")
 
-    dbg_print(f"Started script at path {workingDir}")
-    dbg_print(f"Wildcard pattern is {workingFiles}")
+    dbg_print(args.is_debug, f"Started script at path {workingDir}")
+    dbg_print(args.is_debug, f"Wildcard pattern is {workingFiles}")
 
     files = glob.glob(workingFiles)
     print(files)
@@ -61,10 +61,11 @@ def parseArgs():
     )
 
     help_texts = {
-        "version": "Output program version and exit.",
-        "num_parts": "Specify number of parts you want to split into. Default: 4",
-        "recursive": "Specify that subdirs should be processed.",
-        "debug"  : "Start in debug mode. Prints text to follow program's flow."
+        "version": "output program version and exit.",
+        "num_parts": "specify number of parts you want to split into. Default: 4",
+        "directory": "specify where to run program. Default: wherever you call it.",
+        "recursive": "specify that subdirs should be processed.",
+        "debug"  : "start in debug mode. Prints text to follow program's flow."
     }
 
     parser.add_argument("-v", "--version",
