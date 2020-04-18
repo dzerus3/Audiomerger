@@ -46,7 +46,7 @@ def mergeAudio(args):
             return
 
     if args.outputName:
-        outputName = args.fileName
+        outputName = args.outputName
     else:
         outputName = "output"
 
