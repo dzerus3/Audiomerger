@@ -38,9 +38,20 @@ def dbg_print(is_debug, *args, **kwargs):
 
 def mergeAudio(args):
     files = getFiles(args)
+    fileConcatStrings = getConcatStrings(files)
+    if not args.yes:
+        confirmation = input("This is how the files will be merged. Proceed? (y/n) ")
+        if confirmation not "y":
+            print("Aborting...")
+            return
+
+def getConcatStrings(files):
+    fileConcatStrings = []
     for i in files:
         fileConcatString = "|".join(i)
+        fileConcatStrings.append(fileConcatString)
         print(fileConcatString)
+    return fileConcatStrings
 
 
 def getFiles(args):
