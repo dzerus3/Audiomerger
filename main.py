@@ -18,7 +18,7 @@ def processArgs():
 
     if args.version:
         print(PROG_VERSION)
-        return
+        quit()
 
     if args.numParts:
         numParts = args.numParts
