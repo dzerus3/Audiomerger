@@ -85,7 +85,7 @@ def splitFiles(files, numParts):
         splitFiles.append(buff)
 
     # Remainder gets added onto last part
-    for i in range(1, remainder):
+    for i in range(fileNum + 1, fileNum + remainder):
         splitFiles[-1].append(files[i])
 
     return splitFiles
