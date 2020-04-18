@@ -2,17 +2,27 @@ import subprocess
 import os
 import argparse
 
-prog_version = "0.0.1 - Alpha"
+IS_DEBUG = False
+
+PROG_VERSION = "0.0.1 - Alpha"
 
 def main():
     args = parseArgs()
     if args.version:
-        print (prog_version)
+        print (PROG_VERSION)
         return
     if args.num_parts:
         num_parts = args.num_parts
     else:
         args.num_parts = 4
+    if args.is_debug:
+        IS_DEBUG = True
+    dbg_print("Successfully parsed args")
+
+
+def dbg_print(*args, **kwargs):
+    if IS_DEBUG:
+        print(*args, **kwargs)
 
 
 # Parses command line args passed to the program
