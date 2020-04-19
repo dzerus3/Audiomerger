@@ -27,8 +27,13 @@ def processArgs():
         args.numParts = 4
 
     if not args.directory:
-        args.directory = os.getcwd
-
+        args.directory = os.getcwd()
+    
+    if not args.outputName:
+        args.outputName = os.path.basename(args.directory)
+        print(args.outputName)
+        quit()
+    
     return args
 
 
@@ -46,13 +51,9 @@ def mergeAudio(args):
             print(f"{color.RED}Aborting...{color.END}")
             return
 
-    if args.outputName:
-        outputName = args.outputName
-    else:
-        outputName = "output"
 
     dbg_print(args.is_debug, "Merging files...")
-    mergeFiles(outputName, fileConcatStrings)
+    mergeFiles(args.outputName, fileConcatStrings)
 
 
 def mergeFiles(outputName, fileConcatStrings):
@@ -75,11 +76,10 @@ def getConcatStrings(files):
 
 
 def getFiles(args):
-    workingDir = os.getcwd()
     if args.recursive:
-        workingFiles = os.path.join(workingDir, "**/*.mp3", recursive=True)
+        workingFiles = os.path.join(args.directory, "**/*.mp3", recursive=True)
     else:
-        workingFiles = os.path.join(workingDir, "*.mp3")
+        workingFiles = os.path.join(args.directory, "*.mp3")
 
     dbg_print(args.is_debug, f"Started script at path {workingDir}")
     dbg_print(args.is_debug, f"Wildcard pattern is {workingFiles}")
