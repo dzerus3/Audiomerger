@@ -8,7 +8,6 @@ PROG_VERSION = "1.0.0 - Final"
 
 def main():
     args = processArgs()
-    dbg_print(args.is_debug, "Successfully parsed args")
 
     mergeAudio(args)
 
@@ -35,11 +34,6 @@ def processArgs():
     return args
 
 
-def dbg_print(is_debug, message):
-    if is_debug is True:
-        print(color.GREEN + message + color.END)
-
-
 def mergeAudio(args):
     files = getFiles(args)
     fileConcatStrings = getConcatStrings(files)
@@ -49,7 +43,6 @@ def mergeAudio(args):
             print(f"{color.RED}Aborting...{color.END}")
             return
 
-    dbg_print(args.is_debug, "Merging files...")
     mergeFiles(args.outputName, fileConcatStrings)
 
 
@@ -59,8 +52,6 @@ def mergeFiles(outputName, fileConcatStrings):
         counter += 1
         os.system(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
         # print(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
-
-    dbg_print("All done!")
 
 
 def getConcatStrings(files):
@@ -77,8 +68,6 @@ def getFiles(args):
         workingFiles = os.path.join(args.directory, "**/*.mp3", recursive=True)
     else:
         workingFiles = os.path.join(args.directory, "*.mp3")
-
-    dbg_print(args.is_debug, f"Wildcard pattern is {workingFiles}")
 
     files = sorted(glob.glob(workingFiles))
 
@@ -166,11 +155,6 @@ def parseArgs():
                         action="store_true",
                         dest="delete",
                         help=help_texts["delete"])
-
-    parser.add_argument("--dbg",
-                        action="store_true",
-                        dest="is_debug",
-                        help=help_texts["debug"])
 
     return parser.parse_args()
 
