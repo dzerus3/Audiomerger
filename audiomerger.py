@@ -78,7 +78,6 @@ def getFiles(args):
     else:
         workingFiles = os.path.join(args.directory, "*.mp3")
 
-    dbg_print(args.is_debug, f"Started script at path {workingDir}")
     dbg_print(args.is_debug, f"Wildcard pattern is {workingFiles}")
 
     files = sorted(glob.glob(workingFiles))
@@ -98,7 +97,7 @@ def splitFiles(files, numParts):
 
     remainder = fileNum%numParts
     fileNum -= remainder
-    # Int conversion necessary; else it becomes a float, no idea why
+    # Int conversion necessary, else it becomes a float; no idea why
     partSize = int(fileNum / numParts)
 
     for i in range(numParts):
