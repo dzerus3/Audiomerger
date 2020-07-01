@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import subprocess
 import os
+import re
 import glob
 import argparse
 
@@ -44,13 +45,18 @@ def mergeAudio(args):
             return
 
     mergeFiles(args.outputName, fileConcatStrings)
+    if(args.delete):
+        for filecat in files:
+            for filen in filecat:
+                os.remove(filen)
+                # print(filen)
 
 
 def mergeFiles(outputName, fileConcatStrings):
     counter = 0
     for i in fileConcatStrings:
         counter += 1
-        os.system(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
+        os.system(f"ffmpeg -loglevel error -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
         # print(f"ffmpeg -i \"concat:{i}\" -acodec copy {outputName}{counter}.mp3")
 
 
@@ -69,11 +75,17 @@ def getFiles(args):
     else:
         workingFiles = os.path.join(args.directory, "*.mp3")
 
-    files = sorted(glob.glob(workingFiles))
+    files = naturalSort(glob.glob(workingFiles))
 
     files = splitFiles(files, args.numParts)
 
     return files
+
+
+def naturalSort(l): 
+    convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
+    return sorted(l, key = alphanum_key)
 
 
 def splitFiles(files, numParts):
