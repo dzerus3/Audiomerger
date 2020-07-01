@@ -44,7 +44,7 @@ def mergeAudio(args):
             print(f"{color.RED}Aborting...{color.END}")
             return
 
-    mergeFiles(args.outputName, fileConcatStrings)
+    # mergeFiles(args.outputName, fileConcatStrings)
     if(args.delete):
         for filecat in files:
             for filen in filecat:
@@ -108,7 +108,7 @@ def splitFiles(files, numParts):
         splitFiles.append(buff)
 
     # Remainder gets added onto last part
-    for i in range(fileNum + 1, fileNum + remainder):
+    for i in range(fileNum, fileNum + remainder):
         splitFiles[-1].append(files[i])
 
     return splitFiles
