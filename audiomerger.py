@@ -44,7 +44,7 @@ def mergeAudio(args):
             print(f"{color.RED}Aborting...{color.END}")
             return
 
-    # mergeFiles(args.outputName, fileConcatStrings)
+    mergeFiles(args.outputName, fileConcatStrings)
     if(args.delete):
         for filecat in files:
             for filen in filecat:
